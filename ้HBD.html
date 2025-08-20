@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สุขสันต์วันเกิด!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- หน้าเลือก -->
+    <div class="container" id="selectPage">
+        <h1>เลือกหน้า</h1>
+        <button class="page1" onclick="showPage('page1')">หน้า 1: รับคำอวยพร</button>
+        <button class="page2" onclick="showPage('page2')">หน้า 2: ส่งคำอวยพร</button>
+    </div>
+
+    <!-- หน้า 1 -->
+    <div class="content hidden" id="page1">
+        <h2>🎉 สุขสันต์วันเกิด! 🎉</h2>
+        <p>ขอให้มีความสุขมาก ๆ สุขภาพแข็งแรง และสมปรารถนาทุกอย่าง!</p>
+        <button class="backBtn" onclick="goBack()">กลับ</button>
+    </div>
+
+    <!-- หน้า 2 -->
+    <div class="content hidden" id="page2">
+        <h2>💌 ส่งคำอวยพร 💌</h2>
+        <p>เขียนข้อความของคุณด้านล่างและกดส่ง!</p>
+        <textarea id="wish" rows="5"></textarea>
+        <br><br>
+        <button class="backBtn" onclick="sendWish()">ส่ง</button>
+        <button class="backBtn" onclick="goBack()">กลับ</button>
+    </div>
+
+    <!-- เพลงวันเกิด -->
+    <audio id="birthdaySong" autoplay loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // แสดงหน้า
+        function showPage(pageId){
+            document.getElementById('selectPage').classList.add('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function goBack(){
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById('selectPage').classList.remove('hidden');
+        }
+
+        function sendWish(){
+            let wishText = document.getElementById('wish').value;
+            if(wishText.trim() !== ""){
+                alert("คุณส่งคำอวยพรเรียบร้อย!\n\n"+wishText);
+                document.getElementById('wish').value="";
+            } else {
+                alert("กรุณาเขียนข้อความก่อนส่ง");
+            }
+        }
+
+        // ลูกโป่ง
+        for(let i=0;i<30;i++){
+            let balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = Math.random()*100+'vw';
+            balloon.style.animationDuration = (5+Math.random()*5)+'s';
+            balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},70%,70%), hsl(${Math.random()*360},80%,60%))`;
+            document.body.appendChild(balloon);
+        }
+
+        // ไฟกระพริบ
+        for(let i=0;i<50;i++){
+            let light = document.createElement('div');
+            light.classList.add('light');
+            light.style.left = Math.random()*100+'vw';
+            light.style.top = Math.random()*100+'vh';
+            light.style.animationDuration = (1+Math.random()*3)+'s';
+            document.body.appendChild(light);
+        }
+
+        // Confetti
+        function createConfetti(){
+            let confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random()*window.innerWidth+'px';
+            confetti.style.backgroundColor = `hsl(${Math.random()*360},70%,60%)`;
+            document.body.appendChild(confetti);
+            let duration = 3+Math.random()*3;
+            confetti.animate([
+                { transform: `translateY(0) rotate(0deg)` },
+                { transform: `translateY(${window.innerHeight+20}px) rotate(${Math.random()*360}deg)` }
+            ], { duration: duration*1000, easing: 'linear' });
+            setTimeout(()=>{ confetti.remove(); }, duration*1000);
+        }
+        setInterval(createConfetti, 150);
+    </script>
+
+</body>
+</html>
